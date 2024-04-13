@@ -1,0 +1,9 @@
+:root{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    --font-color: black;
+}
+
+h1{
+    color: red;
+}
