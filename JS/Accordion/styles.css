@@ -1,0 +1,46 @@
+body {
+  font-family: sans-serif;
+  color: gray;
+}
+h1 {
+  text-align: center;
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1em;
+  width: 90vw;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
+.accordion__hide {
+  .description {
+    display: none;
+  }
+  .icon {
+    transform: rotate(90deg);
+  }
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1em;
+  font-weight: 500;
+  color: black;
+  font-size: 18px;
+  width: 80vw;
+}
+.description {
+  margin: 1em;
+}
+
+.icon {
+  transform: rotate(-90deg);
+  transition: transform 1s;
+}
