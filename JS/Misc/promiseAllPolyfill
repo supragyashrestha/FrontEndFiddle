@@ -1,0 +1,126 @@
+// Online Javascript Editor for free
+// Write, Edit and Run your Javascript code using JS Online Compiler
+
+console.log("Try programiz.pro");
+
+const originalString = "aabcccaaa";
+// a2b1c5a3
+
+const solve = string => {
+    let ans = '', char = '', cnt = 0;
+    for(let i = 0; i<string.length; i++){
+        let c  = string[i];
+        if(char && char === c){
+            cnt++;
+        } else if(char !== c){
+            if(char){
+                ans += char;
+                ans += String(cnt);
+                cnt = 0;
+            }
+            char = c;
+            cnt = 1;
+        }
+    }
+    if(char){
+        ans += char;
+        ans += String(cnt);
+        cnt = 0;
+    }
+    
+    return ans;
+    
+}
+
+
+// let finalAns = solve(originalString);
+
+// console.log(finalAns);
+
+
+
+
+const nestedObject = {
+    a: 1,
+    b: {
+        c: 2,
+        d: {
+            e: 3,
+            f: {
+                g: 4
+            }
+        }
+    },
+    h: 5
+};
+
+
+// {
+//     "a": 1,
+//     "b.c": 2,
+//     "b.d.e": 3,
+//     "b.d.f.g": 4,
+//     "h": 5
+// }
+const ansObj = {};
+let newKey = ''
+const flatObj = (obj, objKey = '') => {
+    Object.keys(obj).map(key => {
+        if(obj[key] && Object.keys(obj[key]).length == 0){
+            newKey= objKey ? objKey + '.' + key : key;
+            ansObj[newKey] = obj[key];
+        } else{
+            newKey = objKey ? objKey + '.' + key : key;
+            flatObj(obj[key], newKey);
+        }
+    })
+}
+// flatObj(nestedObject);
+// console.log(ansObj);
+
+
+
+function promiseAll (promises = {}) {
+    const {resolve, reject} = this;
+    let allPromisesData = {};
+    const promiseKeys = Object.keys(promises);
+    let promiseCounter = 0, totalPromises = promiseKeys.length;
+    const newPromise = new Promise((resolve, reject) => {
+        promiseKeys.forEach(key => {
+            promises[key].then(data => {
+                allPromisesData[key] = data;
+                promiseCounter++;
+                if(promiseCounter === totalPromises){
+                    resolve(allPromisesData);
+                }
+            }).catch(err => {
+                reject(err);
+            })
+        })
+        // resolve(allPromisesData);
+    });
+    return newPromise;
+}
+
+const promise1 = new Promise((resolve) => {
+    setTimeout(() => resolve('1'), 1000);
+})
+
+const promise2 = new Promise((resolve) => {
+    setTimeout(() => resolve('2'), 2000);
+})
+
+promiseAll({'promise1': promise1, 'promise2': promise2}).then(data => {
+    console.log(data);
+}).catch(err => console.log(err))
+
+// Promise.all([...])
+/// {a: ar, b: br}
+
+
+
+
+
+
+
+
