@@ -1,0 +1,99 @@
+### Prototypes in JavaScript
+
+**Prototypes** are a fundamental concept in JavaScript that allows objects to inherit properties and methods from other objects. Every JavaScript object has a prototype, which is another object from which it inherits properties and methods.
+
+#### Key Concepts of Prototypes
+
+1. **Prototype Chain**: When you try to access a property or method on an object, JavaScript first looks for it on the object itself. If it doesn't find it, it looks at the object's prototype, then at the prototype's prototype, and so on, until it reaches the end of the chain (`null`).
+
+2. **`__proto__`**: This is a reference to the prototype object from which the current object inherits. It's a way to access an object's prototype, but its use is generally discouraged in favor of `Object.getPrototypeOf()` and `Object.setPrototypeOf()`.
+
+3. **`prototype` Property**: Functions in JavaScript have a `prototype` property that is used when they are used as constructors with the `new` keyword. The `prototype` property of a constructor function is shared among all instances created by that constructor.
+
+#### Example
+
+```javascript
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.greet = function() {
+  console.log(`Hello, my name is ${this.name}`);
+};
+
+const alice = new Person('Alice');
+alice.greet(); // Hello, my name is Alice
+
+console.log(alice.__proto__ === Person.prototype); // true
+```
+
+In this example, `alice` is an instance of `Person`. The `greet` method is defined on `Person.prototype`, so it is available to all instances of `Person`.
+
+### Mutations in JavaScript
+
+**Mutations** refer to changes made to an object or array's structure or properties after it has been created. Mutating an object means altering its state directly, such as adding, modifying, or deleting properties.
+
+#### Example of Mutations
+
+```javascript
+const person = {
+  name: 'Alice',
+  age: 30
+};
+
+// Mutation: Adding a new property
+person.job = 'Engineer';
+
+console.log(person); // { name: 'Alice', age: 30, job: 'Engineer' }
+
+// Mutation: Modifying an existing property
+person.age = 31;
+
+console.log(person); // { name: 'Alice', age: 31, job: 'Engineer' }
+
+// Mutation: Deleting a property
+delete person.job;
+
+console.log(person); // { name: 'Alice', age: 31 }
+```
+
+### Prototypes and Mutations Together
+
+When you mutate an object, these changes are reflected in all references to that object. If a property or method is added to an object's prototype, it becomes available to all instances of that object.
+
+#### Example
+
+```javascript
+function Car(make, model) {
+  this.make = make;
+  this.model = model;
+}
+
+const myCar = new Car('Toyota', 'Camry');
+
+// Mutate the instance
+myCar.year = 2020;
+
+console.log(myCar); // { make: 'Toyota', model: 'Camry', year: 2020 }
+
+// Mutate the prototype
+Car.prototype.getCarInfo = function() {
+  return `${this.make} ${this.model}`;
+};
+
+console.log(myCar.getCarInfo()); // Toyota Camry
+
+const anotherCar = new Car('Honda', 'Accord');
+console.log(anotherCar.getCarInfo()); // Honda Accord
+```
+
+In this example:
+- An instance of `Car` (`myCar`) is mutated by adding a `year` property.
+- The `Car` prototype is mutated by adding a `getCarInfo` method, making it available to all instances of `Car`, including `myCar` and `anotherCar`.
+
+### Summary
+
+- **Prototypes**: Provide a mechanism for inheritance in JavaScript. Objects inherit properties and methods from their prototypes.
+- **Mutations**: Involve changing an object or array after it has been created. This includes adding, modifying, or deleting properties or elements.
+
+Understanding prototypes and mutations is essential for working with objects in JavaScript, as they play a crucial role in the language's inheritance model and state management.

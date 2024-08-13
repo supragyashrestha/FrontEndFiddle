@@ -1,0 +1,20 @@
+### JavaScript vs. Node.js
+
+**JavaScript**:
+- **Definition**: A programming language commonly used for creating interactive effects within web browsers.
+- **Environment**: Runs in the browser (client-side).
+- **Usage**: Mainly for manipulating the DOM, handling events, validating user input, and creating interactive web pages.
+- **APIs**: Browser-specific APIs like `document`, `window`, `localStorage`, etc.
+
+**Node.js**:
+- **Definition**: A runtime environment that allows JavaScript to be executed outside of the browser.
+- **Environment**: Runs on the server (server-side).
+- **Usage**: Used for building server-side applications, handling file system operations, managing databases, and creating backend services.
+- **APIs**: Includes APIs for filesystem (`fs`), networking (`http`), processes (`child_process`), and more.
+
+### Key Differences
+1. **Purpose**: JavaScript is a language; Node.js is a runtime environment that executes JavaScript code on the server.
+2. **Environment**: JavaScript runs in the browser, while Node.js runs on the server.
+3. **APIs**: JavaScript uses browser-specific APIs, whereas Node.js provides server-side APIs.
+
+In summary, JavaScript is the language used for scripting, while Node.js provides the environment to run JavaScript on the server.

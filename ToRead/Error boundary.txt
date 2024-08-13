@@ -1,0 +1,131 @@
+An error boundary is a special type of React component that helps handle errors in a React application gracefully.
+It acts as a catch-all mechanism for JavaScript errors that occur in the component tree, preventing these errors from
+ crashing the entire application.
+
+### What is an Error Boundary?
+
+An error boundary is a React component that implements either or both of the following lifecycle methods:
+- `static getDerivedStateFromError(error)`
+- `componentDidCatch(error, info)`
+
+When an error is thrown in a component that is a descendant of an error boundary, the error boundary catches the error,
+ logs it (if desired), and displays a fallback UI instead of crashing the whole component tree.
+
+### How to Create an Error Boundary
+
+To create an error boundary, you define a class component with the mentioned lifecycle methods:
+
+```jsx
+import React from 'react';
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state to indicate that an error has occurred
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    // You can log the error to an error reporting service here
+    console.error("ErrorBoundary caught an error", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI here
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children; 
+  }
+}
+
+export default ErrorBoundary;
+```
+
+### Usage of Error Boundary
+
+You wrap the components that you want to protect with the `ErrorBoundary` component. This ensures that if any error occurs
+ in the wrapped components, the error boundary will catch it and display a fallback UI.
+
+```jsx
+import React from 'react';
+import ErrorBoundary from './ErrorBoundary';
+import MyComponent from './MyComponent';
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <MyComponent />
+    </ErrorBoundary>
+  );
+}
+
+export default App;
+```
+
+### How Error Boundaries Help
+
+1. **Preventing Application Crashes**: Without error boundaries, an uncaught error in any part of the React component
+ tree would unmount the entire tree, resulting in a complete application crash. Error boundaries prevent this by catching
+  errors and rendering a fallback UI instead.
+
+2. **Improving User Experience**: By catching errors and displaying a fallback UI, error boundaries ensure that the user
+ sees a graceful message rather than a broken interface or a blank screen. This improves the overall user experience,
+  even when something goes wrong.
+
+3. **Isolating Error Impact**: Error boundaries allow you to isolate the impact of errors to specific parts of the application.
+ You can place multiple error boundaries around different parts of your component tree, so that an error in one part does not
+  affect other parts.
+
+4. **Error Logging**: The `componentDidCatch` lifecycle method provides an opportunity to log errors to an external monitoring
+ service, which can help in diagnosing and fixing issues.
+
+### Limitations of Error Boundaries
+
+- Error boundaries do not catch errors inside event handlers. For event handlers, you need to use regular try/catch blocks.
+- They do not catch errors in asynchronous code (like `setTimeout` or `requestAnimationFrame` callbacks).
+- Errors thrown during server-side rendering are not caught by error boundaries.
+
+### Example with Error Logging
+
+Here is an example of an error boundary that logs errors to an external service:
+
+```jsx
+import React from 'react';
+import * as Sentry from '@sentry/browser';
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    Sentry.captureException(error, { extra: info });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children; 
+  }
+}
+
+export default ErrorBoundary;
+```
+
+In this example, when an error is caught, it is logged to Sentry, an external error monitoring service, providing detailed
+ error information that can be used to debug and fix issues.
+
+Overall, error boundaries are a crucial tool in React for enhancing the robustness and reliability of applications.
